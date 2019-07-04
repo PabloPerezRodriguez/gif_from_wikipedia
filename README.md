@@ -9,9 +9,8 @@ It uses the following dependencies:
 
  - [mwclient](https://github.com/mwclient/mwclient) - to parse wikipedia api data
  - [requests](https://github.com/kennethreitz/requests) - to download the images
- - [cairosvg](https://github.com/Kozea/CairoSVG) - to convert svgs to pngs
- - [imageio](https://github.com/imageio/imageio)  -  to create the gif
-
+ - [inkscape](https://github.com/inkscape/inkscape) - to convert svgs to pngs
+ - [imageio](https://github.com/imageio/imageio) and [imageio-ffmpeg](https://github.com/imageio/imageio-ffmpeg) - to create the mp4
 Please contribute.
 
 
