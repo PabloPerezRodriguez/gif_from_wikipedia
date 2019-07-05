@@ -51,7 +51,8 @@ import subprocess
 #     f.truncate()
 
 
-def svg2png(input_file, output_file, desired_height, desired_width):
+# background_opacity -> 255 is opaque, 0 is transparent (or 1.0, opaque, 0.0 transparent)
+def svg2png(input_file, output_file, desired_height, desired_width, background_color='#ffffff', background_opacity=255):
   # I'd like to use CairoSVG but it fails with a 'CAIRO_STATUS_NO_MEMORY' on some files
   # (here's the stack trace https://pastebin.com/upvGqHx2)
 
@@ -62,6 +63,8 @@ def svg2png(input_file, output_file, desired_height, desired_width):
     'inkscape',
     '--without-gui',
     '-f', input_file,
+    f'--export-background={background_color}',
+    f'--export-background-opacity={background_opacity}',
     '--export-area-page',
     '-w', str(desired_width),
     '-h', str(desired_height),
