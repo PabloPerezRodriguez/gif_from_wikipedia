@@ -10,9 +10,30 @@ IMAGE_FILE = 'World_laws_pertaining_to_homosexual_relationships_and_expression.s
 OUT_WIDTH, OUT_HEIGHT = (1920, 1088)
 
 img_history = list(get_img_history(IMAGE_FILE))
+img_history = [dict(img) for img in img_history]
+img_history = img_history[::-1]
 
+print(f'History length: {len(img_history)} images')
+print('Cleaning up images in between reverts...', end='', flush=True)
+# Clean up images in between reverts
+image_hashes = []
+cleaned_up_img_history = []
+for i in range(len(img_history)):
+  img = img_history[i]
+  hash = img['sha1']
 
-print(f'Downloading {len(img_history)} images')
+  if hash in image_hashes:
+    # Found an image this image reverted to
+    hash_idx = image_hashes.index(hash)
+    # Remove images from the hash forwards
+    image_hashes = image_hashes[:hash_idx]
+    cleaned_up_img_history = cleaned_up_img_history[:hash_idx]
+
+  image_hashes.append(hash)
+  cleaned_up_img_history.append(img)
+print('done')
+
+print(f'Cleaned up length: {len(cleaned_up_img_history)} images')
 dir_ = './images'
 
 if not os.path.exists(dir_):
@@ -22,9 +43,7 @@ i = 1
 
 writer = imageio.get_writer('movie.mp4', fps=30)
 
-for img_ordered in reversed(img_history):
-  img = dict(img_ordered)
-
+for img in cleaned_up_img_history:
   png_ext_file = f'f{i}.png'
   png_path = os.path.join(dir_, png_ext_file)
 
